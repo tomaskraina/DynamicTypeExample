@@ -2,7 +2,7 @@
 
 This application demostrates how to scale both preferend and custom fonts and how scaling works for different text styles.
 
-
+![DynamicTypeExample](https://github.com/tomaskraina/DynamicTypeExample/raw/master/DynamicTypeExample.gif)
 
 ## Requirements
 
