@@ -76,12 +76,6 @@ class TextStylesViewController: UITableViewController {
 
 // MARK: - Helpers
 
-func makeLabel(textStyle: UIFont.TextStyle, defaultFont: UIFont?, traits: UITraitCollection) -> UILabel {
-    let label = UILabel()
-    configureLabel(label, textStyle: textStyle, defaultFont: defaultFont, traits: traits)
-    return label
-}
-
 func configureLabel(_ label: UILabel, textStyle: UIFont.TextStyle, defaultFont: UIFont?, traits: UITraitCollection) {
     if let font = defaultFont {
         // This 'metrics' property on UIFont.TextStyle is available only in Swift (not in ObjC)
