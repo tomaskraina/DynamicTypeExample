@@ -1,6 +1,6 @@
 # DynamicTypeExample
 
-This application demostrates how to scale both preferend and custom fonts and how scaling works for different text styles.
+This application demostrates how to implement [Dynamic Type](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/typography/), scale both preferred and [custom fonts](https://developer.apple.com/documentation/uikit/uifont/scaling_fonts_automatically), and finally and how scaling works for different text styles.
 
 The code also shows the following:
 - Overriding trait collection for child view controllers to inject custom `UIContentSizeCategory`: https://stackoverflow.com/questions/43879298/dynamically-mocking-ios-dynamic-type-system-text-size-uicontentsizecategory
