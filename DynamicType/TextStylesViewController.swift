@@ -47,7 +47,11 @@ class TextStylesViewController: UITableViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        self.reloadView()
+        // Reconfiguring labels in table view cells with newly scaled fonts is not needed if any of these conditions are met:
+        // - UILabel.adjustsFontForContentSizeCategory = true
+        // - UITraitCollection.preferredContentSizeCategory is overriden and UIContentSizeCategory.didChangeNotification is posted
+
+//        self.reloadView()
     }
 
     // MARK: - Privates

@@ -63,7 +63,7 @@ class ContainerViewController: UIViewController {
 
         // To monitor changes in UIContentSizeCategory you can either:
         // - observe the UIContentSizeCategory.didChangeNotification notification
-        // - override 'UIViewController.traitCollectionDidChange(_:)' method
+        // - override UIViewController.traitCollectionDidChange(_:) method (see TextStylesViewController)
         NotificationCenter.default.addObserver(self, selector: #selector(ContainerViewController.contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
@@ -82,11 +82,12 @@ class ContainerViewController: UIViewController {
 
     /// Handles UIContentSizeCategory.didChangeNotification
     ///
-    /// This method is called when the prefered content size category changes by:
+    /// This method is called when the prefered content size category is changed by:
     /// - Changing Font Size in Accessibility Inspector (when run on simulator)
     /// - Changing Font Size in Settings (when run on device)
     @objc
     func contentSizeCategoryDidChange(_ notification: NSNotification) {
+        guard (notification.object as? NSObject) !== self else { return }
         guard let newValue = notification.userInfo?[UIContentSizeCategory.newValueUserInfoKey] as? String else { return }
 
         let newSize = UIContentSizeCategory(rawValue: newValue)
@@ -98,6 +99,16 @@ class ContainerViewController: UIViewController {
     private func updateChildSizeCatagory() {
         let traits = UITraitCollection(preferredContentSizeCategory: self.selectedSizeCategory)
         self.setOverrideTraitCollection(traits, forChild: self.childViewController)
+
+        // Posting UIContentSizeCategory.didChangeNotification will trigger, among other things, UITableView relayout.
+        // This relayout causes UITableView datasource to reload its cells - they will be configured with the new font.
+        // I'm not sure if this behaviour a bug or a feature, as it's not documented anywhere (iOS 12.2)
+        //
+        // Keep in mind that the UIContentSizeCategory posted in userInfo payload will be different to the one
+        // returned by UIApplication.preferredContentSizeCategory or UIScreen.traitCollection.preferredContentSizeCategory.
+        // This might result in bugs in more complex apps.
+        let userInfo = [UIContentSizeCategory.newValueUserInfoKey: self.selectedSizeCategory.rawValue]
+        NotificationCenter.default.post(name: UIContentSizeCategory.didChangeNotification, object: self, userInfo: userInfo)
     }
 
     private func updateChildFont() {
